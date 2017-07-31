@@ -1,56 +1,112 @@
 <template>
-  <v-layout>
-    <v-panel
-      contextual-style="primary"
+  <v-app light>
+    <v-navigation-drawer
+      persistent
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      v-model="drawer"
+
     >
-      <h1 class="panel-title" slot="heading">
-        Welcome!
-      </h1>
-      <div slot="body">
-        <p>
-          Get started with the Vue 2 boilerplate
-        </p>
-        <p>
-          For questions, contact me:
-        </p>
-        <p>
-          <a class="btn btn-primary" href="http://gitter.im/petervmeijgaard" target="_blank">
-            <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">Gitter</span>
-          </a>
-          <a class="btn btn-primary" href="http://github.com/petervmeijgaard" target="_blank">
-            <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">GitHub</span>
-          </a>
-          <a class="btn btn-primary" href="http://twitter.com/petervmeijgaard" target="_blank">
-            <i class="fa fa-twitter fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">Twitter</span>
-          </a>
-        </p>
-        <p>
-          For bugs, see:
-        </p>
-        <a class="btn btn-primary" href="https://github.com/petervmeijgaard/vue-2.0-boilerplate/issues" target="_blank">
-          <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-          <span class="padding-left">GitHub</span>
-        </a>
-      </div>
-      <div slot="footer">
-        Made with love by Vivid Web
-      </div>
-    </v-panel>
-  </v-layout>
+      <v-list>
+        <v-list-tile 
+          v-for="(item, i) in items"
+          :key="i"
+          value="true"
+        >
+          <v-list-tile-action>
+            <v-icon light v-html="item.icon"></v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar fixed>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-btn 
+        icon
+        @click.native.stop="miniVariant = !miniVariant"
+      >
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click.native.stop="clipped = !clipped"
+      >
+        <v-icon>web</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        @click.native.stop="fixed = !fixed"
+      >
+        <v-icon>remove</v-icon>
+      </v-btn>
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        icon
+        @click.native.stop="rightDrawer = !rightDrawer"
+      >
+        <v-icon>menu</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <main>
+      <v-container fluid>
+        <v-slide-y-transition mode="out-in">
+          <v-layout column align-center>
+            <img src="/public/v.png" alt="Vuetify.js" class="mb-5" />
+            <blockquote>
+              &#8220;First, solve the problem. Then, write the code.&#8221;
+              <footer>
+                <small>
+                  <em>&mdash;John Johnson</em>
+                </small>
+              </footer>
+            </blockquote>
+          </v-layout>
+        </v-slide-y-transition>
+      </v-container>
+    </main>
+    <v-navigation-drawer
+      temporary
+      :right="right"
+      v-model="rightDrawer"
+    >
+      <v-list>
+        <v-list-tile @click.native="right = !right">
+          <v-list-tile-action>
+            <v-icon light>compare_arrows</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-footer :fixed="fixed">
+      <span>&copy; 2017</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-  /* ============
-   * Home Index Page
-   * ============
-   *
-   * The home index page.
-   */
-
   export default {
-    components: { },
+    data() {
+      return {
+        clipped: false,
+        drawer: true,
+        fixed: false,
+        items: [
+          { icon: 'bubble_chart', title: 'Inspire me' },
+        ],
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Vuetify.js',
+      };
+    },
   };
 </script>
+
+<style lang="stylus">
+  @import '../../../stylus/main'
+</style>
